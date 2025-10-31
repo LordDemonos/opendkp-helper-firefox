@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      margin: 0;
+      background: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+    
+    .header-icons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .icon-btn {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    
+    .icon-btn:hover {
+      background-color: #f0f0f0;
+    }
+    
+    .icon-btn:active {
+      background-color: #e0e0e0;
+    }
+    
+    .status {
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    /* Inline volume control */
+    .volume-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      justify-content: center;
+    }
+    .volume-inline input[type="range"] {
+      width: 160px;
+    }
+    .vol-icon {
+      font-size: 18px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: box-shadow 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .vol-dirty { box-shadow: 0 0 0 2px rgba(244,67,54,0.35); background: rgba(244,67,54,0.08); }
+    .vol-saved { box-shadow: 0 0 0 2px rgba(76,175,80,0.35); background: rgba(76,175,80,0.08); }
+    
+    .status.active {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+    
+    .status.inactive {
+      background: #fff3e0;
+      border-color: #ff9800;
+      color: #e65100;
+    }
+    
+    .status.success {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+    
+    .status.error {
+      background: #ffebee;
+      border-color: #f44336;
+      color: #c62828;
+    }
+    
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    
+    .btn-primary {
+      background: #1976d2;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1565c0;
+    }
+    
+    .btn-secondary {
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    
+    .btn-secondary:hover {
+      background: #eeeeee;
+    }
+    
+    .info {
+      margin-top: 16px;
+      padding: 12px;
+      background: #e3f2fd;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #1976d2;
+    }
+    
+    .raidTick-section {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f0f8ff;
+      border-radius: 6px;
+      border: 1px solid #2196f3;
+    }
+    
+    .raidTick-section h3 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      color: #1976d2;
+    }
+    
+    .date-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    
+    .date-navigation span {
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    
+    .file-list {
+      margin-bottom: 12px;
+    }
+    
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      margin-bottom: 6px;
+      background: white;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .file-name {
+      font-size: 12px;
+      color: #333;
+      flex: 1;
+      margin-right: 8px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      padding: 20px;
+    }
+    
+    .eq-log-section {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f0f8ff;
+      border-radius: 6px;
+      border: 1px solid #2196f3;
+    }
+    
+    .eq-log-section h3 {
+      margin: 0;
+      font-size: 14px;
+      color: #1976d2;
+    }
+    
+    .eq-log-events {
+      margin-top: 12px;
+    }
+    
+    .eq-log-event {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .eq-log-event-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .eq-log-event-timestamp {
+      font-size: 11px;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .eq-log-event-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #999;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+    }
+    
+    .eq-log-event-close:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    .eq-log-items {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .eq-log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      background: #f8f9fa;
+      border-radius: 3px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .eq-log-item-name {
+      font-size: 12px;
+      color: #333;
+      flex: 1;
+      margin-right: 8px;
+    }
+    
+    .eq-log-item-copy {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+    /* Dark mode styles */
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .header h1 {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .icon-btn:hover {
+      background-color: #333;
+    }
+    
+    body.dark-mode .icon-btn:active {
+      background-color: #444;
+    }
+    
+    body.dark-mode .status {
+      background: #2d2d2d;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .status.active {
+      background: #1b5e20;
+      border-color: #4caf50;
+      color: #a5d6a7;
+    }
+    
+    body.dark-mode .status.inactive {
+      background: #e65100;
+      border-color: #ff9800;
+      color: #ffcc02;
+    }
+    
+    body.dark-mode .status.success {
+      background: #1b5e20;
+      border-color: #4caf50;
+      color: #a5d6a7;
+    }
+    
+    body.dark-mode .raidTick-section {
+      background: #2d2d2d;
+      border-color: #555;
+    }
+    
+    body.dark-mode .raidTick-section h3 {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .eq-log-section {
+      background: #2d2d2d;
+      border-color: #555;
+    }
+    
+    body.dark-mode .eq-log-section h3 {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .eq-log-event {
+      background: #333;
+      border-color: #555;
+    }
+    
+    body.dark-mode .eq-log-event-header {
+      border-color: #555;
+    }
+    
+    body.dark-mode .eq-log-event-timestamp {
+      color: #b0b0b0;
+    }
+    
+    body.dark-mode .eq-log-event-close {
+      color: #999;
+    }
+    
+    body.dark-mode .eq-log-event-close:hover {
+      background: #444;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .eq-log-item {
+      background: #444;
+      border-color: #555;
+    }
+    
+    body.dark-mode .eq-log-item-name {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .date-navigation span {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .btn {
+      background: #444;
+      color: #e0e0e0;
+      border-color: #666;
+    }
+    
+    body.dark-mode .btn:hover {
+      background: #555;
+    }
+    
+    body.dark-mode .btn:active {
+      background: #333;
+    }
+    
+    body.dark-mode .file-item {
+      background: #333;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .file-item:hover {
+      background: #444;
+    }
+    
+    body.dark-mode .empty-state {
+      color: #999;
+    }
+    
+    body.dark-mode .info {
+      background: #2d2d2d;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .info strong {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode #eqLogDebugLog {
+      background: #333;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode #eqLogDebugLog .debug-content > div {
+      background: #444;
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header" style="flex-direction: column; gap: 8px;">
+    <h1 style="text-align:center; width:100%;">OpenDKP Helper</h1>
+    <div class="header-icons" style="justify-content:center; gap:10px;">
+      <button id="openOptions" class="icon-btn" title="Open Settings">⚙️</button>
+      <button id="darkModeToggle" class="icon-btn" title="Toggle Dark Mode"><span id="darkModeIcon">☀️</span></button>
+      <button id="modeToggle" class="icon-btn" title="Toggle Mode (Raid Leader/Raider)"><span id="modeIcon">👑</span></button>
+      <button id="copyFromFileBtn" class="icon-btn" title="Copy RaidTick file to clipboard">📄</button>
+      <button id="openLootMonitorBtn" class="icon-btn" title="Open Loot Monitor">🕒</button>
+    </div>
+  </div>
+  
+  <!-- Inline volume control: between header and status -->
+  <div class="volume-inline" id="inlineVolume">
+    <span id="volumeIcon" class="vol-icon" title="Save volume">🔊</span>
+    <input id="volumeSlider" type="range" min="0" max="100" value="70" />
+    <span id="volumePct" style="min-width:32px; text-align:right; font-weight:600; color:#1976d2;">70%</span>
+  </div>
+  
+  <div id="status" class="status">
+    <div id="statusText">Checking status...</div>
+  </div>
+  
+  <div id="raidTickSection" class="raidTick-section" style="display: none;">
+    <h3>📁 RaidTick Files</h3>
+    <div class="date-navigation">
+      <button id="prevDate" class="btn btn-small">‹</button>
+      <span id="currentDate">Today</span>
+      <button id="nextDate" class="btn btn-small">›</button>
+    </div>
+    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+      <button id="raidTickRescan" class="btn btn-small">Rescan</button>
+      <input id="raidTickFolderInput" type="file" multiple style="display:none;" webkitdirectory>
+    </div>
+    <div id="raidTickFiles" class="file-list">
+      <div class="empty-state">No RaidTick files for this day.</div>
+    </div>
+    <div id="raidTickDebugLog" style="margin-top: 8px; padding: 6px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; max-height: 100px; overflow-y: auto; font-size: 11px; font-family: monospace; display: none;"></div>
+  </div>
+  
+  <div id="eqLogSection" class="eq-log-section" style="display: none;">
+    <div style="margin-bottom: 12px;"><h3>⚔️ Loot Parser</h3></div>
+    <div id="eqLogEvents" class="eq-log-events">
+      <div class="empty-state">No loot events captured yet.</div>
+    </div>
+  </div>
+  
+  <div class="info" id="quickInfo" style="display:none;"></div>
+  
+  <script src="popup-firefox.js"></script>
+</body>
+</html>

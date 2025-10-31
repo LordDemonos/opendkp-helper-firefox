@@ -1,0 +1,33 @@
+# Documentation and Design Docs (not needed for extension functionality)
+# Exception: Keep README.md for GitHub
+*.md
+!README.md
+
+# Development and Build Scripts
+package.json
+/generate_chime*.html
+/generate_chime*.js
+/generate_chime*.py
+/create_icons.*
+/create_simple_chime.*
+
+# Test Files
+/test_audio.html
+
+# Non-Icon Images (development resources - exclude PNGs in root, keep icons folder)
+/*.png
+
+# OS and Editor Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Temporary Files
+*.tmp
+*.bak
+*.log

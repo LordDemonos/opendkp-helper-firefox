@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDKP Helper - Settings</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .setting-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        
+        .setting-group h3 {
+            margin: 0 0 15px 0;
+            color: #34495e;
+            font-size: 16px;
+        }
+        
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input[type="range"] {
+            width: 150px;
+            margin-left: 15px;
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-left: 15px;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            margin-left: 15px;
+            min-width: 200px;
+        }
+        
+        .volume-display {
+            font-weight: bold;
+            color: #3498db;
+            margin-left: 10px;
+            min-width: 40px;
+        }
+        
+        .test-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .test-button:hover {
+            background: #2980b9;
+        }
+        
+        .save-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .save-button:hover {
+            background: #229954;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: 1px solid #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            border-color: #5a6268;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+            border: 1px solid #28a745;
+        }
+        
+        .btn-success:hover {
+            background: #1e7e34;
+            border-color: #1e7e34;
+        }
+        
+        /* Unified Button System - Override all buttons to be colorful */
+        button {
+            background: #007bff !important;
+            color: white !important;
+            border: 1px solid #007bff !important;
+            padding: 8px 16px !important;
+            border-radius: 4px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            transition: all 0.2s !important;
+            font-weight: 500 !important;
+        }
+        
+        button:hover {
+            background: #0056b3 !important;
+            border-color: #0056b3 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 4px rgba(0,123,255,0.3) !important;
+        }
+        
+        button:active {
+            background: #004085 !important;
+            transform: translateY(0) !important;
+        }
+        
+        button:disabled {
+            background: #6c757d !important;
+            border-color: #6c757d !important;
+            cursor: not-allowed !important;
+            opacity: 0.6 !important;
+        }
+        
+        button:disabled:hover {
+            background: #6c757d !important;
+            border-color: #6c757d !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Specific button variants */
+        .test-button {
+            background: #17a2b8 !important;
+            border-color: #17a2b8 !important;
+        }
+        
+        .test-button:hover {
+            background: #138496 !important;
+            border-color: #138496 !important;
+            box-shadow: 0 2px 4px rgba(23,162,184,0.3) !important;
+        }
+        
+        .save-button {
+            background: #28a745 !important;
+            border-color: #28a745 !important;
+            padding: 12px 24px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            width: 100% !important;
+            margin-top: 20px !important;
+        }
+        
+        .save-button:hover {
+            background: #1e7e34 !important;
+            border-color: #1e7e34 !important;
+            box-shadow: 0 2px 4px rgba(40,167,69,0.3) !important;
+        }
+        
+        /* Override inline styles for consistency */
+        button[style*="background: #e74c3c"] {
+            background: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+        
+        button[style*="background: #e74c3c"]:hover {
+            background: #c82333 !important;
+            border-color: #c82333 !important;
+            box-shadow: 0 2px 4px rgba(220,53,69,0.3) !important;
+        }
+        
+        button[style*="background: #27ae60"] {
+            background: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+        
+        button[style*="background: #27ae60"]:hover {
+            background: #1e7e34 !important;
+            border-color: #1e7e34 !important;
+            box-shadow: 0 2px 4px rgba(40,167,69,0.3) !important;
+        }
+        
+        .preview-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .preview-buttons button {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        #notificationStatus {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #495057;
+        }
+        
+        #notificationStatus pre {
+            color: #495057;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .description {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .preview-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .preview-section h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        /* Remove accent border for the Custom Sound Manager card */
+        #customSoundManager {
+            border-left: none !important;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .container {
+            background: #2d2d2d;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        body.dark-mode h1 {
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .setting-group {
+            background: #333;
+            border-color: #555;
+        }
+        
+        body.dark-mode .setting-group h3 {
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .setting-row {
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .setting-row label {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .setting-row small {
+            color: #b0b0b0 !important;
+        }
+        
+        body.dark-mode .setting-row em {
+            color: #b0b0b0 !important;
+        }
+        
+        body.dark-mode .preview-section {
+            background: #333 !important;
+            border-color: #555 !important;
+        }
+        
+        body.dark-mode .preview-section h4 {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .preview-section p {
+            color: #b0b0b0 !important;
+        }
+        
+        body.dark-mode .preview-buttons {
+            background: #333 !important;
+        }
+        
+        body.dark-mode .preview-buttons button {
+            background: #444 !important;
+            color: #e0e0e0 !important;
+            border-color: #666 !important;
+        }
+        
+        body.dark-mode .preview-buttons button:hover {
+            background: #555 !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-secondary {
+            background: #6c757d !important;
+            border-color: #6c757d !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-secondary:hover {
+            background: #5a6268 !important;
+            border-color: #5a6268 !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-primary {
+            background: #007bff !important;
+            border-color: #007bff !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-primary:hover {
+            background: #0056b3 !important;
+            border-color: #0056b3 !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-success {
+            background: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+        
+        body.dark-mode .preview-buttons button.btn-success:hover {
+            background: #1e7e34 !important;
+            border-color: #1e7e34 !important;
+        }
+        
+        body.dark-mode #notificationStatus {
+            background: #333 !important;
+            border-color: #555 !important;
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode #notificationStatus pre {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode input[type="range"] {
+            background: #555;
+        }
+        
+        body.dark-mode button {
+            background: #0056b3 !important;
+            color: white !important;
+            border-color: #0056b3 !important;
+        }
+        
+        body.dark-mode button:hover {
+            background: #004085 !important;
+            border-color: #004085 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 4px rgba(0,86,179,0.4) !important;
+        }
+        
+        body.dark-mode button:active {
+            background: #003d82 !important;
+            transform: translateY(0) !important;
+        }
+        
+        body.dark-mode button:disabled {
+            background: #495057 !important;
+            border-color: #495057 !important;
+            cursor: not-allowed !important;
+            opacity: 0.6 !important;
+        }
+        
+        body.dark-mode button:disabled:hover {
+            background: #495057 !important;
+            border-color: #495057 !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Dark mode specific button variants */
+        body.dark-mode .test-button {
+            background: #0f6674 !important;
+            border-color: #0f6674 !important;
+        }
+        
+        body.dark-mode .test-button:hover {
+            background: #0c5460 !important;
+            border-color: #0c5460 !important;
+            box-shadow: 0 2px 4px rgba(15,102,116,0.4) !important;
+        }
+        
+        body.dark-mode .save-button {
+            background: #1e7e34 !important;
+            border-color: #1e7e34 !important;
+        }
+        
+        body.dark-mode .save-button:hover {
+            background: #155724 !important;
+            border-color: #155724 !important;
+            box-shadow: 0 2px 4px rgba(30,126,52,0.4) !important;
+        }
+        
+        /* Footer styles */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            flex-wrap: wrap;
+        }
+        
+        .footer-text {
+            color: #666;
+        }
+        
+        .footer-separator {
+            color: #999;
+        }
+        
+        .footer-link {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        
+        /* Dark mode footer */
+        body.dark-mode .footer {
+            border-top-color: #444;
+        }
+        
+        body.dark-mode .footer-text {
+            color: #aaa;
+        }
+        
+        body.dark-mode .footer-separator {
+            color: #666;
+        }
+        
+        body.dark-mode .footer-link {
+            color: #4a9eff;
+        }
+        
+        body.dark-mode .footer-link:hover {
+            color: #6bb0ff;
+        }
+        
+        /* Dark mode override inline styles */
+        body.dark-mode button[style*="background: #e74c3c"] {
+            background: #c82333 !important;
+            border-color: #c82333 !important;
+        }
+        
+        body.dark-mode button[style*="background: #e74c3c"]:hover {
+            background: #a71e2a !important;
+            border-color: #a71e2a !important;
+            box-shadow: 0 2px 4px rgba(200,35,51,0.4) !important;
+        }
+        
+        body.dark-mode button[style*="background: #27ae60"] {
+            background: #1e7e34 !important;
+            border-color: #1e7e34 !important;
+        }
+        
+        body.dark-mode button[style*="background: #27ae60"]:hover {
+            background: #155724 !important;
+            border-color: #155724 !important;
+            box-shadow: 0 2px 4px rgba(30,126,52,0.4) !important;
+        }
+        
+        body.dark-mode select {
+            background: #444;
+            color: #e0e0e0;
+            border-color: #666;
+        }
+        
+        body.dark-mode input[type="file"] {
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode input[type="checkbox"] {
+            background: #444;
+            border-color: #666;
+        }
+        
+        body.dark-mode input[type="checkbox"]:checked {
+            background: #1976d2;
+            border-color: #1976d2;
+        }
+        
+        body.dark-mode .setting-row span {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .setting-row strong {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .status {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .status.success {
+            background: #1b5e20;
+            border-color: #4caf50;
+            color: #a5d6a7;
+        }
+        
+        body.dark-mode .status.error {
+            background: #b71c1c;
+            border-color: #f44336;
+            color: #ffcdd2;
+        }
+        
+        body.dark-mode .status.warning {
+            background: #e65100;
+            border-color: #ff9800;
+            color: #ffcc02;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 OpenDKP Helper Settings</h1>
+        <div class="setting-group" id="modeGroup" >
+            <h3>🎚️ Mode</h3>
+            <p class="section-description">Choose how the extension behaves. Raid Leader mode enables raid leader tools and stronger alerts. Raider mode focuses on personal alerts and smart bidding.</p>
+            <div class="setting-row" style="justify-content:flex-start; gap:10px;">
+                <select id="soundProfile" style="margin-left:0;">
+                    <option value="raidleader">Raid Leader Profile</option>
+                    <option value="raider">Raider Profile</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="setting-group" id="raidTickGroup">
+            <h3>📁 RaidTick Integration</h3>
+            <p class="section-description">Search for RaidTick .txt files in your TAKP folder and copies the contents to your clipboard for easy OpenDKP import.</p>
+            <div class="setting-description">
+                In game, type <code>/outputfile raidlist</code> to generate a RaidTick <code>.txt</code> file with your current raid. 
+                <br>
+                <span style="color:#888;">(Requires <a href="https://github.com/CoastalRedwood/Zeal/releases" target="_blank" rel="noopener" style="color:#1976d2; text-decoration:underline;">Zeal</a>.)</span>
+            </div>
+            <br>
+            <div class="setting-row">
+                <button id="ffCopyFromFile" class="btn btn-primary" title="Open a small window to pick a RaidTick .txt and copy it to the clipboard">Copy RaidTick from file</button>
+            </div>
+            <div class="description">The helper window automatically closes after copying.</div>
+
+            <!-- Bundled: RaidTick Reminders (visible for Raid Leader only) -->
+            <div id="raidTickReminders" style="display:none; margin-top:12px;">
+                <h4 style="margin:14px 0 8px 0;">⏰ RaidTick Reminders</h4>
+                <div class="setting-row" style="justify-content:flex-start; gap:10px;">
+                    <button id="addReminder" class="btn btn-primary">Add Reminder</button>
+                    <label style="margin-left:10px; display:flex; align-items:center; gap:6px;">
+                        <input type="checkbox" id="reminderFlash"> Screen Flash
+                    </label>
+                    <label style="margin-left:10px; display:flex; align-items:center; gap:6px;">
+                        <input type="checkbox" id="reminderNotifications"> Browser Notifications
+                    </label>
+                </div>
+                <div class="setting-row" style="margin-top:12px; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <label style="display:flex; align-items:center; font-weight:bold;">Enabled on:</label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay0" value="0"> Sunday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay1" value="1"> Monday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay2" value="2"> Tuesday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay3" value="3"> Wednesday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay4" value="4"> Thursday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay5" value="5"> Friday
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="reminderDay6" value="6"> Saturday
+                    </label>
+                </div>
+                <div id="remindersList" style="display:flex; flex-direction:column; gap:10px; margin-top:10px;"></div>
+                <div class="description">Up to 5 reminders. Each reminder triggers every 5 minutes between Start and End times on selected days. TTS reads your message if enabled.</div>
+            </div>
+        </div>
+        
+        <div class="setting-group" id="ffLootExplain" style="display:none;">
+            <h3>⚔️ Loot Parser</h3>
+            <p class="section-description">
+                Firefox restricts extensions from keeping live access to local files. To reliably parse loot:
+                open the <strong>Loot Monitor</strong> window, choose your EQ log once, and leave the window open.
+                It checks every few seconds and pushes new loot lines into the popup automatically.
+            </p>
+             <div class="setting-description">
+                In game, type your identifier before pressing 'Link Loot' (Zeal Feature with compatible UI). The parser will detect log lines containing your identifier and push the items to the popup.
+            </div>
+            <br>
+            <div class="setting-row">
+                <button id="ffOpenLootMonitor" class="btn btn-primary">Open Loot Monitor</button>
+            </div>
+            <div class="description">Close the monitor window to stop; reopen it to resume. Nothing is uploaded—all processing stays local.</div>
+        </div>
+
+        
+
+        
+
+        <div class="setting-group">
+            <h3>🔊 Audio Settings</h3>
+            
+            <div class="setting-row">
+                <label for="volume">Sound Volume:</label>
+                <div style="display: flex; align-items: center;">
+                    <input type="range" id="volume" min="0" max="100" value="70">
+                    <span class="volume-display" id="volumeDisplay">70%</span>
+                    <button class="test-button" id="testSound">Test</button>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <label for="soundType">Notification Sound:</label>
+                <select id="soundType">
+                    <option value="chime">Chime (Default)</option>
+                </select>
+            </div>
+            
+            <div class="description">
+                Choose your preferred notification sound. Custom sounds require uploading an audio file.
+            </div>
+            
+            <h4 style="margin:14px 0 8px 0;">🗣️ Text-to-Speech</h4>
+            <div class="setting-row">
+                <label for="enableTTS">Enable Text-to-Speech:</label>
+                <input type="checkbox" id="enableTTS">
+            </div>
+            
+            <div class="setting-row" id="ttsSettings" style="display: none;">
+                <label for="voice">Voice:</label>
+                <select id="voice" style="margin-left: 15px;">
+                </select>
+            </div>
+            
+            <div class="setting-row" id="ttsSpeedSettings" style="display: none;">
+                <label for="voiceSpeed">Voice Speed:</label>
+                <div style="display: flex; align-items: center;">
+                    <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1" style="margin-left: 15px;">
+                    <span class="speed-display" id="speedDisplay">1.0x</span>
+                    <button class="test-button" id="testVoice">Test Voice</button>
+                </div>
+            </div>
+            
+            <div class="setting-row" id="ttsAdvancedSettings" style="display: none;">
+                <label for="enableAdvancedTTS">Advanced TTS:</label>
+                <input type="checkbox" id="enableAdvancedTTS">
+            </div>
+            
+            <div class="setting-row" id="ttsTemplateSettings" style="display: none;">
+                <label for="ttsTemplate">Custom Message Template:</label>
+                <div style="margin-top: 10px;">
+                    <textarea id="ttsTemplate" rows="4" cols="50" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 12px;" placeholder="Enter custom TTS message template..."></textarea>
+                </div>
+                <div style="margin-top: 5px; font-size: 11px; color: #666;">
+                    <strong>Available variables:</strong><br>
+                    <code>{winner}</code> - Winner name<br>
+                    <code>{bidAmount}</code> - Bid amount<br>
+                    <code>{itemName}</code> - Item name<br>
+                    <code>{winners}</code> - Comma-separated winners list<br>
+                    <code>{isRollOff}</code> - true/false<br>
+                    <code>{multipleWinners}</code> - true/false
+                </div>
+                <div style="margin-top: 10px;">
+                    <button class="test-button" id="testCustomTemplate">Test Custom Template</button>
+                    <button class="test-button" id="resetTemplate" style="background: #e74c3c;">Reset to Default</button>
+                </div>
+            </div>
+
+            <!-- TTS feature description -->
+            <div class="description">
+                Text-to-speech announces auction completions after the sound plays. Requires browser permission.
+            </div>
+
+            <!-- Auction Readout (under TTS) -->
+            <h4 id="announceHeading" style="margin:14px 0 8px 0; display:none;">📢 Read New Auctions</h4>
+            <div class="setting-row" id="announceRow" style="display:none;">
+                <label for="announceAuctions">Read new auctions with TTS:</label>
+                <input type="checkbox" id="announceAuctions">
+            </div>
+            <div class="setting-row" id="announceWindow" style="display:none;">
+                <label for="announceStart">Active Between:</label>
+                <input type="time" id="announceStart" value="19:00" style="margin-left:15px;">
+                <label for="announceEnd" style="margin-left:20px;">and</label>
+                <input type="time" id="announceEnd" value="23:59" style="margin-left:5px;">
+            </div>
+            <div class="description" id="announceDesc">
+                Speaks "New auction: Item Name" when a new auction appears. Uses your TTS voice and speed settings. Respects Quiet Hours.
+            </div>
+            
+            <br>
+        </div>
+        
+        <div class="setting-group">
+            <h3>🗂️ Custom Sound Manager</h3>
+            <div id="customSoundManager" class="preview-section" style="background:#f8f9fa;">
+                <!-- Upload controls -->
+                <div class="setting-row">
+                    <label for="customSoundFile">Upload Audio File:</label>
+                    <input type="file" id="customSoundFile" accept="audio/*" style="margin-left: 15px;">
+                </div>
+                <div class="setting-row">
+                    <label for="customSoundName">Sound Name:</label>
+                    <input type="text" id="customSoundName" placeholder="My Custom Sound" style="margin-left: 15px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                </div>
+                <div class="setting-row">
+                    <button class="test-button" id="testCustomSound" disabled>Test Custom</button>
+                    <button class="test-button" id="saveCustomSound" disabled style="background: #27ae60;">Save Custom</button>
+                </div>
+                <div class="description">
+                    Upload MP3, WAV, or OGG files. Maximum 3 custom sounds. Suggested size ≤ 100 KB each for quick notifications. Files are stored locally in your browser.
+                </div>
+                
+                <!-- Saved list and actions -->
+                <div id="customSoundList" style="display:flex; flex-direction:column; gap:8px;"></div>
+                <div id="customSoundHint" class="description" style="margin-top:8px;">
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <h3>🧠 Smart Notifications</h3>
+            
+            <div class="setting-row">
+                <label for="smartBidding">Smart Bidding Mode:</label>
+                <input type="checkbox" id="smartBidding">
+            </div>
+            <div class="description">
+                Only alerts when you win an auction (detects your characters from the header). Automatically enabled for Raider profile.
+            </div>
+            <br>
+            <div class="setting-row">
+                <label for="quietHours">Quiet Hours Mode:</label>
+                <input type="checkbox" id="quietHours">
+            </div>
+            
+            <div class="setting-row" id="quietHoursSettings" style="display: none;">
+                <label for="quietStart">Quiet Hours Start:</label>
+                <input type="time" id="quietStart" value="22:00" style="margin-left: 15px;">
+                <label for="quietEnd" style="margin-left: 20px;">End:</label>
+                <input type="time" id="quietEnd" value="08:00" style="margin-left: 5px;">
+            </div>
+            
+            <div class="description">
+                Smart mode only alerts for auctions you're bidding on. Quiet Hours disables sound notifications during the selected time range.
+            </div>
+            <br>
+            <!-- Raid Leader Only Settings -->
+            <div id="raidLeaderOnlySettings" style="display: none;">
+                <div class="setting-row">
+                    <label for="raidLeaderNotification">Browser Notification Reminder:</label>
+                    <input type="checkbox" id="raidLeaderNotification" checked>
+                </div>
+                
+                <div class="description">
+                    Reminds you to upload raid logs when you leave opendkp. Raid Leader mode only.
+                </div>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <h3>👁️ Visual Settings</h3>
+            
+            <div class="setting-row">
+                <label for="flashScreen">Screen Flash Effect:</label>
+                <input type="checkbox" id="flashScreen" checked>
+            </div>
+            
+            <div class="setting-row">
+                <label for="browserNotifications">Browser Notifications:</label>
+                <input type="checkbox" id="browserNotifications" checked>
+            </div>
+            
+            <div class="description">
+                Visual alerts help ensure you don't miss timer completions. Can be disabled globally.
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <h3>⚙️ Advanced Settings</h3>
+            
+            <div class="setting-row">
+                <label for="checkInterval">Check Interval (ms):</label>
+                <select id="checkInterval">
+                    <option value="50">50ms (Very Fast)</option>
+                    <option value="100" selected>100ms (Default)</option>
+                    <option value="200">200ms (Slower)</option>
+                    <option value="500">500ms (Slow)</option>
+                </select>
+            </div>
+            
+            <div class="description">
+                Adjust how often the extension checks for timer changes. Faster is more responsive; slower uses less CPU.
+            </div>
+            <br>
+        </div>
+        
+        <div class="setting-group">
+            <h3>🎯 Notification Preview</h3>
+            <div class="setting-row">
+                <span>Test different notification types to see how they'll appear:</span>
+            </div>
+            <div class="preview-buttons">
+                <button class="btn btn-secondary" id="testSingleWinner">Test Single Winner</button>
+                <button class="btn btn-secondary" id="testRollOff">Test Roll-off</button>
+                <button class="btn btn-secondary" id="testMultiWinner">Test Multiple Winners</button>
+            </div>
+            
+            <div class="preview-buttons" style="margin-top: 15px;">
+                <button class="btn btn-primary" id="notificationPermission">Check Notification Status</button>
+            </div>
+            
+            <div id="notificationStatus" style="margin-top: 15px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none; font-family: monospace; font-size: 12px;">
+                <pre id="statusContent" style="margin: 0;"></pre>
+            </div>
+        </div>
+        
+        <button class="save-button" id="saveSettings">💾 Save Settings</button>
+        
+        <div id="status" class="status" style="display: none;"></div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <span class="footer-text">OpenDKP Helper v1.0.0</span>
+                <span class="footer-separator">•</span>
+                <a href="https://github.com/LordDemonos/opendkp-helper-firefox" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+                <span class="footer-separator">•</span>
+                <span class="footer-text">Xanax &lt;Former Glory&gt; </span>
+            </div>
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>
