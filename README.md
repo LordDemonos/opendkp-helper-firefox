@@ -23,7 +23,7 @@ A comprehensive browser extension for opendkp.com that provides intelligent auct
 ### Text-to-Speech (TTS)
 - ✅ **Speech Announcements** - Announces auction completions with customizable messages
 - ✅ **Voice Selection** - Choose from available system voices
-- ✅ **Speed Control** - Adjustable voice speed (0.5x - 2.5x)
+- ✅ **Speed Control** - Adjustable voice speed (0.5x - 2.0x)
 - ✅ **Custom Templates** - Create custom TTS messages with placeholders:
   - `{winner}` - Winner's name
   - `{bidAmount}` - Bid amount
