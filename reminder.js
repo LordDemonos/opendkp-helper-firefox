@@ -37,7 +37,10 @@
 					const v = voices.find(v=>v.name===s.voice);
 					if (v) u.voice = v;
 				} catch(_){}
-				u.rate = s.voiceSpeed || 1.0;
+				// Chrome's Speech Synthesis API caps rate at 2.0x, Firefox supports higher
+				const isFirefox = typeof browser !== 'undefined' && navigator.userAgent.includes('Firefox');
+				const maxRate = isFirefox ? 2.5 : 2.0;
+				u.rate = Math.min(s.voiceSpeed || 1.0, maxRate);
 				u.volume = 0.9;
 				setTimeout(()=> speechSynthesis.speak(u), 400);
 			}
@@ -49,14 +52,18 @@
 		try { 
 			const result = await api.runtime.sendMessage({ type:'ackReminder', id, ts: Date.now() });
 			try { console.log('[Reminder] Done clicked, acknowledgment sent:', result); } catch(_) {}
+			// Background script should close all windows, but if it fails or doesn't respond,
+			// close this window after a longer delay to give background script time to process
+			setTimeout(() => {
+				try { window.close(); } catch(_) {}
+			}, 500); // Increased delay to give background script time to close windows
 		} catch(e) { 
 			try { console.warn('[Reminder] Failed to send acknowledgment:', e); } catch(_) {}
+			// If message failed, close immediately as fallback
+			setTimeout(() => {
+				try { window.close(); } catch(_) {}
+			}, 100);
 		}
-		// Background script will close all windows for this reminder
-		// Fallback: close this window after a short delay
-		setTimeout(() => {
-			try { window.close(); } catch(_) {}
-		}, 100);
 	});
 
 	// On load, speak and sound
