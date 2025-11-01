@@ -1,0 +1,18 @@
+{
+  "name": "opendkp-timer-alert",
+  "version": "1.0.0",
+  "description": "Firefox extension to monitor auction timers on opendkp.com with audio notifications",
+  "scripts": {
+    "generate-chime": "node generate_chime_node.js",
+    "test": "echo \"Open about:debugging in Firefox to test the extension\" && exit 0"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "opendkp",
+    "timer",
+    "notification"
+  ],
+  "author": "",
+  "license": "MIT"
+}
