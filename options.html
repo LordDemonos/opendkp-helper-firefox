@@ -637,10 +637,26 @@
                 <span style="color:#888;">(Requires <a href="https://github.com/CoastalRedwood/Zeal/releases" target="_blank" rel="noopener" style="color:#1976d2; text-decoration:underline;">Zeal</a>.)</span>
             </div>
             <br>
-            <div class="setting-row">
-                <button id="ffCopyFromFile" class="btn btn-primary" title="Open a small window to pick a RaidTick .txt and copy it to the clipboard">Copy RaidTick from file</button>
+            
+            <!-- Chrome: Use file copy tool (same as Firefox, but opens picker directly) -->
+            <div id="ffRaidTickAlt" style="display: none;">
+                <!-- Chrome: Opens file picker directly, copies to clipboard -->
+                <div class="setting-row">
+                    <button id="ffCopyFromFile" class="btn btn-primary" title="Pick a RaidTick .txt file and copy it to the clipboard">Copy RaidTick from file</button>
+                </div>
+                <div class="description">Opens a file picker to select a RaidTick .txt file and copies its contents to your clipboard.</div>
             </div>
-            <div class="description">The helper window automatically closes after copying.</div>
+            
+            <!-- Firefox: Use pop-out window (different implementation) -->
+            <div id="ffRaidTickWindow" style="display: none;">
+                <!-- Firefox: Opens a small window that auto-closes after copying -->
+                <div class="setting-row">
+                    <button id="ffCopyFromFileWindow" class="btn btn-primary" title="Open a small window to pick a RaidTick .txt and copy it to the clipboard">Copy RaidTick from file</button>
+                </div>
+                <div class="description">The helper window automatically closes after copying.</div>
+            </div>
+            
+            <input type="file" id="folderInput" multiple webkitdirectory style="display: none;">
 
             <!-- Bundled: RaidTick Reminders (visible for Raid Leader only) -->
             <div id="raidTickReminders" style="display:none; margin-top:12px;">
@@ -742,7 +758,7 @@
             <div class="setting-row" id="ttsSpeedSettings" style="display: none;">
                 <label for="voiceSpeed">Voice Speed:</label>
                 <div style="display: flex; align-items: center;">
-                    <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1" style="margin-left: 15px;">
+                    <input type="range" id="voiceSpeed" min="0.5" max="2.5" step="0.1" value="1" style="margin-left: 15px;">
                     <span class="speed-display" id="speedDisplay">1.0x</span>
                     <button class="test-button" id="testVoice">Test Voice</button>
                 </div>
